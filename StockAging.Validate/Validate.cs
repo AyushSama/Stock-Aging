@@ -42,6 +42,7 @@ namespace StockAging.Validate
                 {
                     Id = group.Employee.Id,
                     Symbol = group.Employee.Symbol,
+                    Exchange = group.Employee.Exchange,
                     NetQuantity = group.Employee.NetQuantity,
                     First_Date = group.StartDate,
                     Last_Date = group.EndDate,

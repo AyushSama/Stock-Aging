@@ -46,6 +46,7 @@ public class ReadFile
                                 {
                                     Id = dataRow[0].ToString(), // Assuming first column is ID
                                     Symbol = dataRow[2].ToString(), // Assuming third column is Symbol
+                                    Exchange = dataRow[3].ToString(),
                                     NetQuantity = int.Parse(dataRow[4].ToString()), // Assuming fifth column is NetQuantity
                                     Sequence = sequenceDate
                                 };
@@ -64,10 +65,12 @@ public class ReadFile
                     Console.WriteLine($"Error processing file {filePath}: {ex.Message}");
                 }
             }
+
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Error reading files from directory: {ex.Message}");
+
         }
 
         return employeesFromAllFiles;
