@@ -14,7 +14,7 @@ namespace StockAging.Validate
             // Group by Employee ID and Symbol
             var employeeGroups = allEmployees
                 .GroupBy(e => new { e.Id, e.Symbol })
-                .Where(g => g.Count() == 5 && g.All(e => int.Parse(e.NetQuantity) > 0)) // Ensure 5 days with NetQuantity > 0
+                .Where(g => g.Count() >= 5 && g.All(e => int.Parse(e.NetQuantity) > 0)) // Ensure 5 days with NetQuantity > 0
                 .Select(g => g.OrderByDescending(e => e.Sequence).FirstOrDefault())
                 .ToList();
 
