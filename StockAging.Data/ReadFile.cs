@@ -19,7 +19,7 @@ public class ReadFile
 
             // Get all Excel files (.xls and .xlsx) from the directory
             string[] filePaths = Directory.GetFiles(dirPath, "*.xlsx*");
-            int count = 0;
+            int count = 1;
 
             foreach (string filePath in filePaths)
             {

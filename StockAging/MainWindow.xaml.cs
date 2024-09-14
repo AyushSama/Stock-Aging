@@ -18,12 +18,6 @@ namespace StockAging {
 
             var validEmployees = Validate.EmployeeValidation.FindEmployeesWithSameSymbolFor5Days(employees);
 
-            foreach (var employee in validEmployees)
-            {
-                Console.WriteLine($"Employee ID: {employee.Id}, Symbol: {employee.Symbol}");
-            }
-
-
             EmployeeDataGrid.ItemsSource = validEmployees;
 
         }
