@@ -11,6 +11,6 @@ namespace StockAging.Data.Interface
         public string Id { get; set; }
         public string Symbol { get; set; }
         public string NetQuantity { get; set; }
-        public int Sequence { get; set; }    
+        public DateOnly Sequence { get; set; }    
     }
 }

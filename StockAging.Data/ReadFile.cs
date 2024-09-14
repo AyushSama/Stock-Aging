@@ -19,7 +19,6 @@ public class ReadFile
 
             // Get all Excel files (.xls and .xlsx) from the directory
             string[] filePaths = Directory.GetFiles(dirPath, "*.xlsx*");
-            int count = 1;
 
             foreach (string filePath in filePaths)
             {
@@ -31,6 +30,8 @@ public class ReadFile
                         using (var reader = ExcelReaderFactory.CreateReader(stream))
                         {
                             // Convert to DataSet
+                            var sequenceDate = ExtractDateFromFileName(Path.GetFileNameWithoutExtension(filePath));
+
                             var result = reader.AsDataSet();
                             var table = result.Tables[0]; // Get the first table
 
@@ -46,12 +47,11 @@ public class ReadFile
                                     Id = dataRow[0].ToString(), // Assuming first column is ID
                                     Symbol = dataRow[2].ToString(), // Assuming third column is Symbol
                                     NetQuantity = dataRow[4].ToString(), // Assuming fifth column is NetQuantity
-                                    Sequence = count
+                                    Sequence = sequenceDate
                                 };
 
                                 employeeList.Add(employee);
                             }
-                            count += 1;
                             employeesFromAllFiles.Add(employeeList);
                         }
                     }
@@ -69,4 +69,18 @@ public class ReadFile
 
         return employeesFromAllFiles;
     }
+
+    private static DateOnly ExtractDateFromFileName(string fileNameWithoutExtension)
+    {
+        // The date format in the file name is dd-MM-yy
+        if (DateOnly.TryParseExact(fileNameWithoutExtension, "dd-MM-yy", null, System.Globalization.DateTimeStyles.None, out var dateOnly))
+        {
+            return dateOnly;
+        }
+
+        // Return a default value if parsing fails
+        return DateOnly.MinValue; // Or use another appropriate default
+    }
+
+
 }
