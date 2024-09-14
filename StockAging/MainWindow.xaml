@@ -1,0 +1,16 @@
+﻿<Window x:Class="StockAging.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StockAging"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <TextBox x:Name="Directory_Path" HorizontalAlignment="Center" Margin="0,123,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="228" Height="23"/>
+        <Label Content="Give the path to your Directory Here" HorizontalAlignment="Center" Margin="0,92,0,0" VerticalAlignment="Top"/>
+        <Button Content="Check Age" HorizontalAlignment="Center" Margin="0,168,0,0" VerticalAlignment="Top" Click="Button_Click"/>
+        <DataGrid x:Name="EmployeeDataGrid" AutoGenerateColumns="True" 
+                  Margin="0,217,0,0"/>
+    </Grid>
+</Window>
