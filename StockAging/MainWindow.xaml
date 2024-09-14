@@ -7,10 +7,32 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <TextBox x:Name="Directory_Path" TextAlignment="Center" HorizontalAlignment="Center" Margin="0,123,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="228" Height="23"/>
-        <Label Content="Give the path to your Directory Here" HorizontalAlignment="Center" Margin="0,92,0,0" VerticalAlignment="Top"/>
-        <Button Content="Check Stock Age" HorizontalAlignment="Center" Margin="0,168,0,0" VerticalAlignment="Top" Click="Button_Click"/>
-        <DataGrid x:Name="EmployeeDataGrid" AutoGenerateColumns="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ColumnWidth="*"
-                  Margin="0,217,0,0"/>
+        <TextBox x:Name="Directory_Path" TextAlignment="Center" HorizontalAlignment="Center" Margin="0,45,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="228" Height="23"/>
+        <Label Content="Give the path to your Directory Here" HorizontalAlignment="Center" Margin="0,17,0,0" VerticalAlignment="Top"/>
+        <Button Content="Check Stock Age" HorizontalAlignment="Center" Margin="0,78,0,0" VerticalAlignment="Top" Click="Button_Click"/>
+        <DataGrid x:Name="EmployeeDataGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" AutoGenerateColumns="True" Margin="0,110,0,0" CanUserAddRows="False" AlternationCount="2" ColumnWidth="*">
+            <!-- Basic Row Styling -->
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <!-- Normal row background color -->
+                    <Setter Property="Background" Value="LightCyan" />
+                    <Style.Triggers>
+                        <!-- Alternate row background color -->
+                        <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                            <Setter Property="Background" Value="WhiteSmoke" />
+                        </Trigger>
+                        <!-- Hover effect on row -->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="LightBlue" />
+                        </Trigger>
+                        <!-- Selected row color -->
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="LightGreen" />
+                            <Setter Property="Foreground" Value="Black" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+        </DataGrid>
     </Grid>
 </Window>

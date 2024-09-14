@@ -62,7 +62,7 @@ namespace StockAging.Validate
 
             foreach (var emp in employees)
             {
-                if (int.Parse(emp.NetQuantity) > 0)
+                if (emp.NetQuantity > 0)
                 {
                     if (!inPeriod)
                     {

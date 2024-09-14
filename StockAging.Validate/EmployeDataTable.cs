@@ -10,7 +10,7 @@ namespace StockAging.Validate
     {   
         public string Id {  get; set; }
         public string Symbol { get; set; }
-        public string NetQuantity { get; set; }
+        public int NetQuantity { get; set; }
         public DateOnly First_Date { get; set; }
         public DateOnly Last_Date { get; set; }
         public int Days { get; set; }

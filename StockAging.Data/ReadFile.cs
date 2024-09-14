@@ -46,9 +46,12 @@ public class ReadFile
                                 {
                                     Id = dataRow[0].ToString(), // Assuming first column is ID
                                     Symbol = dataRow[2].ToString(), // Assuming third column is Symbol
-                                    NetQuantity = dataRow[4].ToString(), // Assuming fifth column is NetQuantity
+                                    NetQuantity = int.Parse(dataRow[4].ToString()), // Assuming fifth column is NetQuantity
                                     Sequence = sequenceDate
                                 };
+
+                                if (employee.NetQuantity <= 0)
+                                    continue;
 
                                 employeeList.Add(employee);
                             }
