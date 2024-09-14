@@ -17,20 +17,22 @@ namespace StockAging.Validate
             // Group by Employee ID and Symbol
             var employeeGroups = allEmployees
                 .GroupBy(e => new { e.Id, e.Symbol })
-                .Where(g => g.Count() >= 2) // && g.All(e => int.Parse(e.NetQuantity) > 0))
                 .Select(g =>
                 {
-                    var dates = g.Select(e => e.Sequence).OrderBy(d => d).ToList();
-                    var (start, end) = GetContiguousSequenceRange(dates);
-                    return new
+                    var nonZeroPeriods = GetContiguousPeriods(g.OrderBy(e => e.Sequence).ToList());
+                    var latestPeriod = nonZeroPeriods.OrderByDescending(p => p.StartDate).FirstOrDefault();
+
+                    return latestPeriod != default((DateOnly StartDate, DateOnly EndDate)) ? new
                     {
                         Employee = g.OrderByDescending(e => e.Sequence).FirstOrDefault(),
-                        StartDate = start,
-                        EndDate = end,
-                        Days = (start != DateOnly.MinValue && end != DateOnly.MinValue) ? (end.DayNumber - start.DayNumber) + 1 : 0 // Calculate the number of days
-                    };
+                        StartDate = latestPeriod.StartDate,
+                        EndDate = latestPeriod.EndDate,
+                        Days = (latestPeriod.StartDate != DateOnly.MinValue && latestPeriod.EndDate != DateOnly.MinValue)
+                            ? (latestPeriod.EndDate.DayNumber - latestPeriod.StartDate.DayNumber) + 1
+                            : 0
+                    } : null;
                 })
-                .Where(x => x.StartDate != DateOnly.MinValue && x.EndDate != DateOnly.MinValue) // Filter out invalid ranges
+                .Where(x => x != null) // Filter out null values
                 .ToList();
 
             // Add valid employees to the result list
@@ -51,30 +53,44 @@ namespace StockAging.Validate
             return validEmployees;
         }
 
-        private static (DateOnly, DateOnly) GetContiguousSequenceRange(List<DateOnly> sequences)
+        private static List<(DateOnly StartDate, DateOnly EndDate)> GetContiguousPeriods(List<Employee> employees)
         {
-            if (sequences.Count < 5 || !IsContiguous(sequences))
-                return (DateOnly.MinValue, DateOnly.MinValue);
+            var periods = new List<(DateOnly StartDate, DateOnly EndDate)>();
+            var currentStartDate = DateOnly.MinValue;
+            var currentEndDate = DateOnly.MinValue;
+            bool inPeriod = false;
 
-            // The first date in the sorted list
-            var start = sequences.First();
-            // The last date in the sorted list
-            var end = sequences.Last();
-
-            return (start, end);
-        }
-
-        private static bool IsContiguous(List<DateOnly> sequences)
-        {
-            for (int i = 0; i < sequences.Count - 1; i++)
+            foreach (var emp in employees)
             {
-                // Check if the next date is exactly one day after the current date
-                if (sequences[i].AddDays(1) != sequences[i + 1])
+                if (int.Parse(emp.NetQuantity) > 0)
                 {
-                    return false;
+                    if (!inPeriod)
+                    {
+                        // Start of a new period
+                        currentStartDate = emp.Sequence;
+                        inPeriod = true;
+                    }
+                    // End of the current period
+                    currentEndDate = emp.Sequence;
+                }
+                else
+                {
+                    if (inPeriod)
+                    {
+                        // End of the current period
+                        periods.Add((currentStartDate, currentEndDate));
+                        inPeriod = false;
+                    }
                 }
             }
-            return true;
+
+            // Add the last period if the loop ended while still in a period
+            if (inPeriod)
+            {
+                periods.Add((currentStartDate, currentEndDate));
+            }
+
+            return periods;
         }
     }
 }
