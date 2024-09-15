@@ -66,7 +66,19 @@ namespace StockAging {
 
         private void ExchangeFilter_Click(object sender, RoutedEventArgs e)
         {
+            var employeeDetails = EmployeeDataGrid.ItemsSource as List<EmployeDataTable>;
 
+            if (employeeDetails == null)
+                return; // Handle cases where ItemsSource is not set or is of a different type
+
+            // Sort the list based on NetQuantity and days (Sequence) in descending order
+            var sortedEmployees = employeeDetails
+            .OrderByDescending(e => e.Days)  // Sort by Days first (descending)
+            .ThenBy(e => e.Exchange)  // Then by Exchange (ascending)
+            .ToList();
+
+            // Rebind the sorted list to the DataGrid
+            EmployeeDataGrid.ItemsSource = sortedEmployees;
         }
     }
 }
