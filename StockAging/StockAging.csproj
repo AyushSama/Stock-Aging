@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ClosedXML" Version="0.102.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\StockAging.Data\StockAging.Data.csproj" />
     <ProjectReference Include="..\StockAging.Validate\StockAging.Validate.csproj" />
   </ItemGroup>

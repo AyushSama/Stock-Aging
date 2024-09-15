@@ -4,8 +4,10 @@ using StockAging.Validate;
 using Microsoft.Win32;
 using System.IO;
 using StockAging.Data;
+using ClosedXML.Excel;
 
-namespace StockAging { 
+namespace StockAging
+{
     public partial class MainWindow : Window
     {
         public MainWindow()
@@ -30,7 +32,7 @@ namespace StockAging {
 
             Dictionary<string, string> userNames = MapIdAndUserNames.ReadUserListFromDirectory(dirPath);
 
-            List<List<Employee>> employees = ReadNetPositionFile.ReadFileFromDirectory(dirPath,userNames);
+            List<List<Employee>> employees = ReadNetPositionFile.ReadFileFromDirectory(dirPath, userNames);
 
             var validEmployees = EmployeeValidation.FindEmployeesWithSameSymbolFor5Days(employees);
 
@@ -83,7 +85,58 @@ namespace StockAging {
 
         private void ExportButton_Click(object sender, RoutedEventArgs e)
         {
+            // Get the data from the DataGrid's ItemsSource
+            var employeeDetails = EmployeeDataGrid.ItemsSource as List<EmployeDataTable>;
 
+            if (employeeDetails == null || !employeeDetails.Any())
+            {
+                MessageBox.Show("No data to export.");
+                return;
+            }
+
+            // Create a new Excel workbook
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Employee Data");
+
+                // Add column headers
+                worksheet.Cell(1, 1).Value = "Id";
+                worksheet.Cell(1, 2).Value = "UserName";
+                worksheet.Cell(1, 3).Value = "Symbol";
+                worksheet.Cell(1, 4).Value = "Exchange";
+                worksheet.Cell(1, 5).Value = "NetQuantity";
+                worksheet.Cell(1, 6).Value = "Days";
+
+                // Add employee data to the worksheet
+                for (int i = 0; i < employeeDetails.Count; i++)
+                {
+                    var employee = employeeDetails[i];
+                    worksheet.Cell(i + 2, 1).Value = employee.Id;
+                    worksheet.Cell(i + 2, 2).Value = employee.Name;
+                    worksheet.Cell(i + 2, 3).Value = employee.Symbol;
+                    worksheet.Cell(i + 2, 4).Value = employee.Exchange;
+                    worksheet.Cell(i + 2, 5).Value = employee.NetQuantity;
+                    worksheet.Cell(i + 2, 6).Value = employee.Days;
+                }
+
+                worksheet.Columns().AdjustToContents(); // Adjust column widths
+
+                // Get the path to the Downloads folder
+                string downloadsFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads";
+                string filePath = Path.Combine(downloadsFolder, "EmployeeData.xlsx");
+
+                try
+                {
+                    // Save the file to the Downloads folder
+                    workbook.SaveAs(filePath);
+                    MessageBox.Show($"File saved successfully to Downloads!!");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("An error occurred while saving the file: " + ex.Message);
+                }
+            }
         }
+
     }
 }
