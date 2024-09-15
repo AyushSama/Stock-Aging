@@ -34,5 +34,11 @@
                 </Style>
             </DataGrid.RowStyle>
         </DataGrid>
+        <Button x:Name="BrowseFolder" Click="BrowseFolder_Click" HorizontalAlignment="Left" Margin="654,45,0,0" VerticalAlignment="Top" Height="23" Width="21">
+            <StackPanel Orientation="Horizontal">
+                <!-- Icon from Segoe MDL2 Assets font -->
+                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE8B7;" FontSize="16" Margin="0,0,5,0" VerticalAlignment="Center"/>
+            </StackPanel>
+        </Button>
     </Grid>
 </Window>

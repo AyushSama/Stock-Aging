@@ -1,6 +1,7 @@
 ﻿using StockAging.Data.Interface;
 using System.Windows;
 using StockAging.Validate;
+using Microsoft.Win32;
 using System.IO;
 
 namespace StockAging { 
@@ -31,6 +32,15 @@ namespace StockAging {
             var validEmployees = Validate.EmployeeValidation.FindEmployeesWithSameSymbolFor5Days(employees);
 
             EmployeeDataGrid.ItemsSource = validEmployees;
+        }
+
+        private void BrowseFolder_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == true)
+            {
+                Directory_Path.Text = Path.GetDirectoryName(openFileDialog.FileName);
+            }
         }
     }
 }
