@@ -41,6 +41,7 @@ namespace StockAging.Validate
                 var dataTable = new EmployeDataTable
                 {
                     Id = group.Employee.Id,
+                    Name = group.Employee.UserName,
                     Symbol = group.Employee.Symbol,
                     Exchange = group.Employee.Exchange,
                     NetQuantity = group.Employee.NetQuantity,

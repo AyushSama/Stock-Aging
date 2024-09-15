@@ -3,6 +3,7 @@ using System.Windows;
 using StockAging.Validate;
 using Microsoft.Win32;
 using System.IO;
+using StockAging.Data;
 
 namespace StockAging { 
     public partial class MainWindow : Window
@@ -27,7 +28,9 @@ namespace StockAging {
             Properties.Settings.Default.LastDirectoryPath = dirPath;
             Properties.Settings.Default.Save();
 
-            List<List<Employee>> employees = ReadNetPositionFile.ReadFileFromDirectory(dirPath);
+            Dictionary<string, string> userNames = MapIdAndUserNames.ReadUserListFromDirectory(dirPath);
+
+            List<List<Employee>> employees = ReadNetPositionFile.ReadFileFromDirectory(dirPath,userNames);
 
             var validEmployees = Validate.EmployeeValidation.FindEmployeesWithSameSymbolFor5Days(employees);
 
@@ -42,10 +45,6 @@ namespace StockAging {
                 Directory_Path.Text = Path.GetDirectoryName(openFileDialog.FileName);
             }
         }
-        private void SyncUserName_Click(object sender, RoutedEventArgs e)
-        {
-            string dirPath = Directory_Path.Text;
-            
-        }
+
     }
 }

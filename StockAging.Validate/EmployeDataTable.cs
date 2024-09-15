@@ -9,6 +9,7 @@ namespace StockAging.Validate
     public class EmployeDataTable
     {   
         public string Id {  get; set; }
+        public string Name { get; set; }
         public string Symbol { get; set; }
         public string Exchange { get; set; }
         public int NetQuantity { get; set; }

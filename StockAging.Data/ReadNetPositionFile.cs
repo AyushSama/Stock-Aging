@@ -8,7 +8,7 @@ using StockAging.Data.Interface;
 
 public class ReadNetPositionFile
 {
-    public static List<List<Employee>> ReadFileFromDirectory(string dirPath)
+    public static List<List<Employee>> ReadFileFromDirectory(string dirPath, Dictionary<string, string> userNames)
     {
         List<List<Employee>> employeesFromAllFiles = new List<List<Employee>>();
 
@@ -42,17 +42,26 @@ public class ReadNetPositionFile
                             {
                                 DataRow dataRow = table.Rows[row];
 
+                                var id = dataRow[0].ToString().Trim().Trim('"'); ;
+                                var symbol = dataRow[2].ToString().Trim();
+                                var exchange = dataRow[3].ToString().Trim();
+                                var netQuantityStr = dataRow[4].ToString().Trim();
+
+                                // Check if ID is present in the dictionary and handle missing IDs
+                                var userName = userNames.ContainsKey(id) ? userNames[id] : "Unknown";
+
+                                if (!int.TryParse(netQuantityStr, out int netQuantity) || netQuantity <= 0)
+                                    continue;
+
                                 Employee employee = new Employee
                                 {
-                                    Id = dataRow[0].ToString(), // Assuming first column is ID
-                                    Symbol = dataRow[2].ToString(), // Assuming third column is Symbol
-                                    Exchange = dataRow[3].ToString(),
-                                    NetQuantity = int.Parse(dataRow[4].ToString()), // Assuming fifth column is NetQuantity
+                                    Id = id,
+                                    Symbol = symbol,
+                                    Exchange = exchange,
+                                    UserName = userName,
+                                    NetQuantity = netQuantity,
                                     Sequence = sequenceDate
                                 };
-
-                                if (employee.NetQuantity <= 0)
-                                    continue;
 
                                 employeeList.Add(employee);
                             }
@@ -65,12 +74,10 @@ public class ReadNetPositionFile
                     Console.WriteLine($"Error processing file {filePath}: {ex.Message}");
                 }
             }
-
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Error reading files from directory: {ex.Message}");
-
         }
 
         return employeesFromAllFiles;
@@ -87,6 +94,4 @@ public class ReadNetPositionFile
         // Return a default value if parsing fails
         return DateOnly.MinValue; // Or use another appropriate default
     }
-
-
 }
