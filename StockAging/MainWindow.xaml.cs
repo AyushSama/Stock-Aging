@@ -45,6 +45,5 @@ namespace StockAging {
                 Directory_Path.Text = Path.GetDirectoryName(openFileDialog.FileName);
             }
         }
-
     }
 }
