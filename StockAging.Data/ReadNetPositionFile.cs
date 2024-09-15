@@ -6,7 +6,7 @@ using System.Text;
 using ExcelDataReader;
 using StockAging.Data.Interface;
 
-public class ReadFile
+public class ReadNetPositionFile
 {
     public static List<List<Employee>> ReadFileFromDirectory(string dirPath)
     {
