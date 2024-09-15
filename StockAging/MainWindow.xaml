@@ -26,7 +26,7 @@
                     VerticalAlignment="Center">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock FontFamily="Segoe MDL2 Assets"
-                               Text="&#xE8B7;"
+                               Text="&#xEC25;"
                                FontSize="16"/>
                 </StackPanel>
             </Button>
@@ -37,48 +37,84 @@
         <Grid Margin="0,78,0,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <!-- For the Menu -->
                 <RowDefinition Height="*"/>
-                <!-- For the DataGrid -->
             </Grid.RowDefinitions>
+
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <!-- For the DataGrid -->
             </Grid.ColumnDefinitions>
 
-            <!-- Filter Menu positioned in the top-right corner -->
-            <Menu Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,0,0">
-                <MenuItem Width="26">
-                    <MenuItem.Icon>
+            <!-- Export Button and Filter Menu in the same row -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
+                <!-- Export Button -->
+                <Button x:Name="ExportButton"
+                        Width="75"
+                        Height="30"
+                        Click="ExportButton_Click"
+                        Margin="0,0,15,0">
+                    <StackPanel Orientation="Horizontal">
                         <TextBlock FontFamily="Segoe MDL2 Assets"
-                                   Text="&#xE71C;"
+                                   Text="&#xE791;"
                                    FontSize="16"
                                    VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,0,5,0"/>
+                        <!-- Button Content -->
+                        <TextBlock Text="Export"
+                                   VerticalAlignment="Center"
                                    HorizontalAlignment="Center"/>
-                    </MenuItem.Icon>
-                    <!-- Submenu items -->
-                    <MenuItem x:Name="NetQuantityFilter" Click="NetQuantityFilter_Click" Header="Net Quantity"/>
-                    <MenuItem x:Name="ExchangeFilter" Click="ExchangeFilter_Click" Header="Exchange"/>
-                </MenuItem>
-            </Menu>
+                    </StackPanel>
+                </Button>
+
+
+
+
+                <!-- Filter Menu -->
+                <Menu Margin="0,0,10,0">
+                    <MenuItem Width="26" Height="30">
+                        <MenuItem.Icon>
+                            <TextBlock FontFamily="Segoe MDL2 Assets"
+                                       Text="&#xE71C;"
+                                       FontSize="16"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"/>
+                        </MenuItem.Icon>
+                        <!-- Submenu items -->
+                        <MenuItem x:Name="NetQuantityFilter" Click="NetQuantityFilter_Click" Header="Net Quantity">
+                            <MenuItem.Icon>
+                                <TextBlock FontFamily="Segoe MDL2 Assets"
+                                           Text="&#xE8AF;"
+                                           FontSize="16"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Center"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem x:Name="ExchangeFilter" Click="ExchangeFilter_Click" Header="Exchange">
+                            <MenuItem.Icon>
+                                <TextBlock FontFamily="Segoe MDL2 Assets"
+                                           Text="&#xE8AF;"
+                                           FontSize="16"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Center"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </MenuItem>
+                </Menu>
+            </StackPanel>
 
             <!-- DataGrid taking up the remaining space -->
             <DataGrid x:Name="EmployeeDataGrid" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" AutoGenerateColumns="True" Margin="0,0,0,0" CanUserAddRows="False" AlternationCount="2" ColumnWidth="*">
                 <!-- Basic Row Styling -->
                 <DataGrid.RowStyle>
                     <Style TargetType="DataGridRow">
-                        <!-- Normal row background color -->
                         <Setter Property="Background" Value="LightCyan" />
                         <Style.Triggers>
-                            <!-- Alternate row background color -->
                             <Trigger Property="ItemsControl.AlternationIndex" Value="1">
                                 <Setter Property="Background" Value="WhiteSmoke" />
                             </Trigger>
-                            <!-- Hover effect on row -->
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter Property="Background" Value="LightBlue" />
                             </Trigger>
-                            <!-- Selected row color -->
                             <Trigger Property="IsSelected" Value="True">
                                 <Setter Property="Background" Value="LightGreen" />
                                 <Setter Property="Foreground" Value="Black" />
