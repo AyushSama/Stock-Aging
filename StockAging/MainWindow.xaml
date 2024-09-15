@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <TextBox x:Name="Directory_Path" TextAlignment="Center" HorizontalAlignment="Center" Margin="0,45,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="228" Height="23"/>
+        <TextBox x:Name="Directory_Path" TextAlignment="Center" HorizontalAlignment="Center" Margin="0,45,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="497" Height="23"/>
         <Label Content="Give the path to your Directory Here" HorizontalAlignment="Center" Margin="0,17,0,0" VerticalAlignment="Top"/>
         <Button Content="Check Stock Age" HorizontalAlignment="Center" Margin="0,78,0,0" VerticalAlignment="Top" Click="Button_Click"/>
         <DataGrid x:Name="EmployeeDataGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" AutoGenerateColumns="True" Margin="0,110,0,0" CanUserAddRows="False" AlternationCount="2" ColumnWidth="*">
